@@ -1,0 +1,113 @@
+{
+    "BuildType":"execute",
+    "ProjectName":"slugtracer",
+    "WorkSpacePath":"workspace/slugtracer",
+    "RelativeProjectPath":"sources/app/slugtracer",
+    "DependLibrary":[],
+    "IncludeDirectory":[
+        "@RootPath/sources/app/slugtracer/include",
+        "@RootPath/resource/program/include",
+        "@RootPath/thirdparty/stb/include",
+        "@RootPath/thirdparty/imgui/dx11/include",
+        "@RootPath/thirdparty/cereal/include",
+        "@RootPath/thirdparty/DirectXTex/include",
+        "@RootPath/thirdparty/glm/include",
+        "@RootPath/thirdparty/polynomial_optics/include",
+        "C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.7.0/include",
+        "C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.7.0/SDK/cuda",
+        "C:/ProgramData/NVIDIA Corporation/OptiX SDK 7.7.0/SDK",
+        "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/include"
+    ],
+    "SourceDirectory":[
+        "sources/app/slugtracer/include",
+        "sources/app/slugtracer/src"
+    ],
+    "SetupType":"default",
+    "MakeConfig":{
+        "MakeType":"Default",
+        "MakeToolType":"CMake"
+    },
+    "CreateDocConfig":{
+        "DocType":""
+    },
+    "PreMakeCommand":[
+        "@echo off",
+        "if exist bin/ ( rmdir /s /q bin\\ )",
+        "md bin\\",
+        "mklink /J bin\\package ..\\..\\package",
+        "mklink /J bin\\resource ..\\..\\resource"
+    ],
+    "MakeOption":{
+        "ConfigrationTypes":["Debug","Develope","Release"],
+        "LinkPath":{
+            "Default":[""],
+            "Debug":[
+                "@RootPath/thirdparty/imgui/dx11/lib/imgui.lib",
+                "@RootPath/thirdparty/DirectXTex/lib/DirectXTexD.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cudart_static.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cuda.lib"
+            ],
+            "Develope":[
+                "@RootPath/thirdparty/imgui/dx11/lib/imgui.lib",
+                "@RootPath/thirdparty/DirectXTex/lib/DirectXTex.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cudart_static.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cuda.lib"
+            ],
+            "Release":[
+                "@RootPath/thirdparty/DirectXTex/lib/DirectXTex.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cudart_static.lib",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/lib/x64/cuda.lib"
+            ]
+        },
+        "BuildOption":{
+            "Default":{
+                "DefineMacro":["PLATFORM_WINDOWS_64", "NOMINMAX", "USE_OPTIX", "USE_CUDA", "CONFIGURATION=\"$(Configuration)\"","ROOT_PATH=\"${output_dir_Default}/\""],
+                "CompileOption":["/fp:fast","/Ob1","/Ot","/Zi","/W4","/WX","/wd4100","/wd4201","/wd26812", "/external:W0", "/experimental:external", "/external:anglebrackets", "/analyze:external-"],
+                "LinkerOption":[],
+                "OutPutDir":["${CMAKE_SOURCE_DIR}/bin"],
+                "PreBuildCutomCommand":[],
+                "PreLinkCutomCommand":[],
+                "PostBuildCutomCommand":[],
+                "CompileFeature":["cxx_std_20"]
+            },
+            "Debug":{
+                "DefineMacro":["MODE_DEBUG"],
+                "CompileOption":["/MDd","/Oy-","/Od"],
+                "LinkerOption":[],
+                "OutPutDir":[],
+                "PreBuildCutomCommand":[],
+                "PreLinkCutomCommand":[],
+                "PostBuildCutomCommand":[
+                    "xcopy \\\"${root_path}thirdparty/freeglut/bin\\\" \\\"${output_dir_Default}/Debug\\\" \/I \/Y \/E \\n"
+                ],
+                "CompileFeature":[]
+            },
+            "Develope":{
+                "DefineMacro":["MODE_DEBUG"],
+                "CompileOption":["/MD","/Oy","/O2"],
+                "LinkerOption":[],
+                "OutPutDir":[],
+                "PreBuildCutomCommand":[],
+                "PreLinkCutomCommand":[],
+                "PostBuildCutomCommand":[
+                    "xcopy \\\"${root_path}thirdparty/freeglut/bin\\\" \\\"${output_dir_Default}/Develope\\\" \/I \/Y \/E \\n"
+                ],
+                "CompileFeature":[]
+            },
+            "Release":{
+                "DefineMacro":["MODE_RELEASE"],
+                "CompileOption":["/MD","/Oy","/O2"],
+                "LinkerOption":[],
+                "OutPutDir":[],
+                "PreBuildCutomCommand":[],
+                "PreLinkCutomCommand":[],
+                "PostBuildCutomCommand":[],
+                "CompileFeature":[]
+            }
+        },
+        "Generator":"Visual Studio 17 2022",
+        "Archetecture":"Win32",
+        "BuildDirectory":"_build",
+        "GenaratorTool":"host=x64"
+    } 
+}

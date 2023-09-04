@@ -1,0 +1,46 @@
+{
+    "@discription_order":[
+        "cmake_minimum_required",
+        "set_ahead",
+        "set",
+        "project",
+        "include",
+        "macro"
+    ],
+    "cmake_minimum_required":{
+        "VERSION":[
+            "3.15.0"
+        ]
+    },
+    "set_ahead":
+    {
+        "project_name":[],
+        "project_root_path":[],
+        "subdirectory_paths":[],
+        "cmake_module_path":[],
+        "source_paths":[],
+        "include_paths":[],
+        "extension_paths":[],
+        "library_paths":[],
+        "build_type":[],
+        "dependency_lib_names":[],
+        "configuration_types":[]
+    },
+    "set":{
+
+    },
+    "include":{
+        "Default":[
+            "${cmake_module_path}/SetupEnviromentBuild.cmake"
+        ],
+        "GoogleTest":[
+            "${cmake_module_path}/SetupGoogleTest.cmake"
+        ]
+    },
+    "project":[
+        "${project_name}"
+    ],
+    "macro":[
+        "setup_build_enviroment()"
+    ]
+}

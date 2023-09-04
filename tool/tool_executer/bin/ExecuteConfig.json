@@ -1,0 +1,12 @@
+{
+    "ConvertDataList":{
+        ".gltf":"tool\\model_converter\\bin\\ModelConverter.exe",
+        ".fbx":"tool\\model_converter\\bin\\ModelConverter.exe",
+        ".obj":"tool\\model_converter\\bin\\ModelConverter.exe",
+        ".usd":"tool\\model_converter\\bin\\ModelConverter.exe",
+        ".png":"tool\\texture_converter\\bin\\texconv.exe",
+        ".jpg":"tool\\texture_converter\\bin\\texconv.exe",
+        ".tga":"tool\\texture_converter\\bin\\texconv.exe",
+        ".cu":"tool\\nvcc_compiler\\bin\\nvcc_compiler.exe"
+    }
+}

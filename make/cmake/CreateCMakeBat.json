@@ -1,0 +1,10 @@
+{
+    "generator":"",
+    "archetecture":"",
+    "output_dir_name":"",
+    "generator_tool":"",
+    "command":{
+        "vs2017lower":"cmake -B @output_dir_name -G @generator -A @archetecture -T @generator_tool",
+        "vs2019upper":"cmake -B @output_dir_name -G \"@generator\" -T @generator_tool"
+    }
+}

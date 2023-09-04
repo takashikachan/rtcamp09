@@ -1,0 +1,14 @@
+{
+    "DOC_DIRECTORY":"",
+    "DOXYGEN_TOOL_DIR":"",
+    "CONFIG_NAME":"",
+    "CONFIG_PATH":"",
+    "command":[
+        "if exist @DOC_DIRECTORY del @DOC_DIRECTORY /Q",
+        "mkdir @DOC_DIRECTORY",
+        "if exist @CONFIG_NAME del @CONFIG_NAME",
+        "@DOXYGEN_TOOL_DIR\\bin\\doxygen.exe -g @CONFIG_NAME",
+        "powershell -ExecutionPolicy RemoteSigned @DOXYGEN_TOOL_DIR\\EditDoxygenConfig -ConfigPath @CONFIG_NAME -ConfigJsonPath @CONFIG_PATH",
+        "@DOXYGEN_TOOL_DIR\\bin\\doxygen.exe @CONFIG_NAME"
+    ]
+}

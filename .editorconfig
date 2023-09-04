@@ -1,0 +1,27 @@
+# Visual Studio で、C++ の設定で .editorconfig ファイルが生成されました。
+root = true
+
+# 適用対象のファイル
+[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+
+# Visual C++ コード スタイルの設定
+
+# doxygenコメントの自動挿入
+cpp_generate_documentation_comments = doxygen_slash_star
+
+# Visual C++ に関するコードスタイル設定
+# https://docs.microsoft.com/ja-jp/visualstudio/ide/cpp-editorconfig-properties?view=vs-2019
+
+# EditorConfig Propertiesの設定
+# https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+
+# インデントをタブにするかスペースにするか
+indent_style = space
+# インデントのスペース数
+indent_size = 4
+# タブのスペース数（指定がない場合は indent_size と同じになる）
+#tab_width = 4
+# 改行コード
+end_of_line = crlf
+# ファイルのエンコーディング形式
+charset = utf-8-bom
