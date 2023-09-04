@@ -48,6 +48,7 @@ function GetProjectNameFromPath{
 #*/ --------------------------------------------------
 function CorrectDpendName{
     Param(
+        [parameter(mandatory=$true)][string]$ProjectName,
         [parameter(mandatory=$true)][string]$ProjectPath,
         [parameter(mandatory=$true)]$LibraryPaths,
         [parameter(mandatory=$true)][string]$RootPath
@@ -60,7 +61,6 @@ function CorrectDpendName{
     }
 
     # $LibraryTableのkeyに$ProjectNameが無ければ追加
-    $ProjectName = GetProjectNameFromPath $ProjectPath    
     if(-not($LibraryTable.ContainsKey($ProjectName)))
     {
         $LibraryTable.add($ProjectName, $LibraryNames);
@@ -363,7 +363,7 @@ function CreateBuildConfig{
         [parameter(mandatory=$true)][string]$WorkConfigPath
     )
     #依存しているライブラリを収集する
-    CorrectDpendName $ProjectConfig["RelativeProjectPath"] $ProjectConfig["DependLibrary"] $RootPath
+    CorrectDpendName $ProjectConfig["ProjectName"] $ProjectConfig["RelativeProjectPath"] $ProjectConfig["DependLibrary"] $RootPath
     $table = RefactorDependName $ProjectConfig["ProjectName"]
 
     #各プロジェクトのinclude,source,libディレクトリを収集

@@ -2,10 +2,10 @@
     "BuildType":"execute",
     "ProjectName":"slugtracer",
     "WorkSpacePath":"workspace/slugtracer",
-    "RelativeProjectPath":"sources/app/slugtracer",
+    "RelativeProjectPath":"sources/",
     "DependLibrary":[],
     "IncludeDirectory":[
-        "@RootPath/sources/app/slugtracer/include",
+        "@RootPath/sources/include",
         "@RootPath/resource/program/include",
         "@RootPath/thirdparty/stb/include",
         "@RootPath/thirdparty/imgui/dx11/include",
@@ -19,8 +19,8 @@
         "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/include"
     ],
     "SourceDirectory":[
-        "sources/app/slugtracer/include",
-        "sources/app/slugtracer/src"
+        "sources/include",
+        "sources/src"
     ],
     "SetupType":"default",
     "MakeConfig":{
@@ -62,7 +62,7 @@
         "BuildOption":{
             "Default":{
                 "DefineMacro":["PLATFORM_WINDOWS_64", "NOMINMAX", "USE_OPTIX", "USE_CUDA", "CONFIGURATION=\"$(Configuration)\"","ROOT_PATH=\"${output_dir_Default}/\""],
-                "CompileOption":["/fp:fast","/Ob1","/Ot","/Zi","/W4","/WX","/wd4100","/wd4201","/wd26812", "/external:W0", "/experimental:external", "/external:anglebrackets", "/analyze:external-"],
+                "CompileOption":["/fp:fast","/Ob1","/Ot","/Zi","/W4","/WX","/wd4100","/wd4201","/wd26812", "/external:W0", "/experimental:external", "/external:anglebrackets", "/analyze:external-", "/openmp"],
                 "LinkerOption":[],
                 "OutPutDir":["${CMAKE_SOURCE_DIR}/bin"],
                 "PreBuildCutomCommand":[],
@@ -77,9 +77,7 @@
                 "OutPutDir":[],
                 "PreBuildCutomCommand":[],
                 "PreLinkCutomCommand":[],
-                "PostBuildCutomCommand":[
-                    "xcopy \\\"${root_path}thirdparty/freeglut/bin\\\" \\\"${output_dir_Default}/Debug\\\" \/I \/Y \/E \\n"
-                ],
+                "PostBuildCutomCommand":[],
                 "CompileFeature":[]
             },
             "Develope":{
@@ -89,9 +87,7 @@
                 "OutPutDir":[],
                 "PreBuildCutomCommand":[],
                 "PreLinkCutomCommand":[],
-                "PostBuildCutomCommand":[
-                    "xcopy \\\"${root_path}thirdparty/freeglut/bin\\\" \\\"${output_dir_Default}/Develope\\\" \/I \/Y \/E \\n"
-                ],
+                "PostBuildCutomCommand":[],
                 "CompileFeature":[]
             },
             "Release":{

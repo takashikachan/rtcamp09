@@ -1,0 +1,1 @@
+call %CD%\BUILD_INSTALL_DX11.bat

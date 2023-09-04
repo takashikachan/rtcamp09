@@ -1,12 +1,13 @@
-﻿#include <TruncPoly/TruncPolySystem.hh>
+﻿#include <polynomial_optics/TruncPoly/TruncPolySystem.hh>
 
-#include <OpticalElements/OpticalMaterial.hh>
-#include <OpticalElements/Spherical5.hh>
-#include <OpticalElements/Cylindrical5.hh>
-#include <OpticalElements/Propagation5.hh>
-#include <OpticalElements/TwoPlane5.hh>
+#include <polynomial_optics/OpticalElements/OpticalMaterial.hh>
+#include <polynomial_optics/OpticalElements/Spherical5.hh>
+#include <polynomial_optics/OpticalElements/Cylindrical5.hh>
+#include <polynomial_optics/OpticalElements/Propagation5.hh>
+#include <polynomial_optics/OpticalElements/TwoPlane5.hh>
 
-#include <OpticalElements/FindFocus.hh>
+#include <polynomial_optics/OpticalElements/FindFocus.hh>
+#include <polynomial_optics/include/spectrum.h>
 
 #include <iostream>
 #include <stdlib.h>
@@ -16,7 +17,6 @@
 
 #include <omp.h> 
 
-#include <spectrum.h>
 #include <fstream>
 #include "utility/LensSystem.hpp"
 
@@ -412,7 +412,7 @@ void LensSystem::SetupParam(LensSystemParam& param)
     m_impl->r_pupil = m_param.r_entrance;
     
     m_impl->rgb.resize(3 * param.num_lambdas);
-#pragma omp parallel for
+
     for (int ll = 0; ll < param.num_lambdas; ++ll)
     {
         float lambda = param.lambda_from + (param.lambda_to - param.lambda_from) * (ll / (float)(param.num_lambdas - 1));
@@ -441,13 +441,12 @@ void LensSystem::SetupParam(LensSystemParam& param)
     m_impl->pixel_size = m_impl->sensor_width / (float)width / m_impl->magnification;
 
     m_impl->blade_positions.resize(m_param.blade_count * 2);
-#pragma omp parallel for
+
     for (int b = 0; b < m_param.blade_count; ++b) {
         m_impl->blade_positions[b * 2] = std::cos(b * 3.141596535f * 2.0f / m_param.blade_count) * m_impl->r_pupil;
         m_impl->blade_positions[b * 2 + 1] = std::sin(b * 3.141596535f * 2.0f / m_param.blade_count) * m_impl->r_pupil;
     }
 
-#pragma omp parallel for
     m_impl->lambda_system.clear();
     for (int ll = 0; ll < m_param.num_lambdas; ++ll) {
         float lambda = m_param.lambda_from + (m_param.lambda_to - m_param.lambda_from) * (ll / (float)(m_param.num_lambdas - 1));
@@ -457,7 +456,7 @@ void LensSystem::SetupParam(LensSystemParam& param)
         }
         System43f system_lambda = system_lambert_cos2.bake_input_variable(4, lambda);
         system_lambda %= degree;
-#pragma omp parallel for
+
         for (int j = 0; j < height; j++) 
         {
             const float y_sensor = ((j - height / 2) / (float)width) * m_param.sensor_width;
@@ -538,12 +537,12 @@ void LensSystem::CalcLensSystemImage(std::vector<float4>& src, std::vector<float
     size_t output_byte_size = sizeof(float) * 3 * width * height;
     memcpy(img_in.data(), src.data(), input_byte_size);
     memset(img_out.data(), 0, output_byte_size);
-#pragma omp parallel for
+
     for (int ll = 0; ll < num_lambdas; ++ll) {
 
         float lambda = lambda_from + (lambda_to - lambda_from) * (ll / (float)(num_lambdas - 1));
 
-#pragma omp parallel for
+
         for (int j = 0; j < height; j++) {
 
             int index = ll * height + j;
@@ -551,7 +550,7 @@ void LensSystem::CalcLensSystemImage(std::vector<float4>& src, std::vector<float
             // Bake y dependency
             System33f& system_y = m_impl->lambda_system.at(index);
             
-#pragma omp parallel for
+
             for (int i = 0; i < width; i++) {
                 const float x_sensor = (i / (float)width - 0.5f) * sensor_width;
                 const float x_world = x_sensor / magnification;
@@ -568,7 +567,7 @@ void LensSystem::CalcLensSystemImage(std::vector<float4>& src, std::vector<float
                 int num_samples = std::max(1, (int)(L_in * sample_mul));
 
                 float sample_weight = L_in / num_samples;
-#pragma omp parallel for
+
                 // With that, we can now start sampling the aperture:
                 for (int sample = 0; sample < num_samples; ++sample) {
 
@@ -642,10 +641,10 @@ void LensSystem::CalcLensSystemImage(std::vector<float4>& src, std::vector<float
             }
         }
     }
-#pragma omp parallel for
+
     // Fix gamut problem (pure wavelengths sometimes result in negative RGB)
     for (int j = 0; j < sensor_yres; ++j) {
-#pragma omp parallel for
+
         for (int i = 0; i < sensor_xres; ++i) {
             float max_value = std::max(img_out.atXY(i, j, 0, 0),
                 std::max(img_out.atXY(i, j, 0, 1),
@@ -661,7 +660,7 @@ void LensSystem::CalcLensSystemImage(std::vector<float4>& src, std::vector<float
     tmp.resize(width* height);
     memcpy(tmp.data(), img_out.data(), output_byte_size);
 
-#pragma omp parallel for
+
     for (int i = 0; i < dst.size(); i++) 
     {
         float3& value = tmp.at(i);

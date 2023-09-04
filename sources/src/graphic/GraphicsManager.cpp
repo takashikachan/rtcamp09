@@ -66,7 +66,7 @@ bool GraphicsManager::Initialize(const GraphicsManagerParam& param)
     m_init_param.height = param.render_height;
     m_init_param.output_type = OutputType::Sdr;
     m_init_param.enable_denoise = true;
-    m_init_param.sample_per_launch = 1;
+    m_init_param.sample_per_launch = 100;
     m_init_param.max_depth = 2;
     m_init_param.sky_intensity = 0.01f;
     m_init_param.sun_dir[0] = 0.5f;
@@ -97,7 +97,7 @@ bool GraphicsManager::Initialize(const GraphicsManagerParam& param)
 void GraphicsManager::Update(uint32_t framecount) 
 {
 
-    m_scene.UpdateState(m_context, m_output_buffer, m_traclball_camera.GetCamera(), false, m_init_param,  m_init_param.framecount);
+    m_scene.UpdateState(m_context, m_output_buffer, m_traclball_camera.GetCamera(), false, m_init_param,  framecount);
 
     LaunchArg arg;
     arg.output_buffer = &m_output_buffer;

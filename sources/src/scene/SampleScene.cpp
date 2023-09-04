@@ -63,8 +63,6 @@ public:
     CUmodule cuda_module = 0;
     CUfunction cuda_tonmap = 0;
     CUfunction cuda_copybuffer = 0;
-    CUfunction cuda_atrous_wavelet = 0;
-    CUfunction cuda_particle = 0;
     CUfunction cuda_lensflare = 0;
 
     CudaBuffer albedo;
@@ -512,8 +510,6 @@ void SampleScene::CreateCudaModule(GraphicsContext& context)
     context.CreateCudaModule(blob, m_impl->cuda_module);
     context.GetFunctionKernel(m_impl->cuda_module, "launch_tonemap", m_impl->cuda_tonmap);
     context.GetFunctionKernel(m_impl->cuda_module, "launch_copybuffer", m_impl->cuda_copybuffer);
-    context.GetFunctionKernel(m_impl->cuda_module, "launch_atrous_wavelet", m_impl->cuda_atrous_wavelet);
-    context.GetFunctionKernel(m_impl->cuda_module, "launch_particle", m_impl->cuda_particle);
     context.GetFunctionKernel(m_impl->cuda_module, "launch_lensflare", m_impl->cuda_lensflare);
 }
 
@@ -548,12 +544,6 @@ void SampleScene::UpdateAnimation(int32_t framecount, Camera& camera)
         camera.drity = true;
     }
 }
-
-void SampleScene::UpdateParticle(GraphicsContext& context, uint32_t framecount)
-{
-    //m_impl->m_particle_system.UpdateParticleLight(context, m_impl->resources, m_impl->cuda_particle, framecount);
-}
-
 
 void SampleScene::UpdateLaunchParam(SdrPixelBuffer& output_buffer, InitParam& param)
 {
@@ -788,62 +778,6 @@ void SampleScene::TonemapPass(int width, int height)
     CUDA_CHECK_ERROR(cuCtxSynchronize());
 }
 
-void SampleScene::AtrousWaveletPass(int width, int height)
-{
-    if (!m_impl->enable_denoise)
-    {
-        return;
-    }
-    int numElements = width * height;
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (numElements + threadsPerBlock - 1) / threadsPerBlock;
-
-    dim3 cudaBlockSize(threadsPerBlock, 1, 1);
-    dim3 cudaGridSize(blocksPerGrid, 1, 1);
-
-    float color_sigma = m_impl->color_sigma;
-    float normal_sigma = m_impl->normal_sigma;
-    float position_sigma = m_impl->position_sigma;
-    float albedo_sigma = m_impl->albedo_sigma;
-    float color_sigma_scale = m_impl->color_sigma_scale;
-    int32_t step_scale = 1;
-    void* arr[13] = {};
-    arr[0] = reinterpret_cast<void*>(&m_impl->hdr.buffer);
-    arr[1] = reinterpret_cast<void*>(&m_impl->albedo.buffer);
-    arr[2] = reinterpret_cast<void*>(&m_impl->normal.buffer);
-    arr[3] = reinterpret_cast<void*>(&m_impl->position.buffer);
-    arr[4] = reinterpret_cast<void*>(&m_impl->hdr_tmp.buffer);
-    arr[5] = reinterpret_cast<void*>(&numElements);
-    arr[6] = reinterpret_cast<void*>(&width);
-    arr[7] = reinterpret_cast<void*>(&height);
-    arr[8] = reinterpret_cast<void*>(&color_sigma);
-    arr[9] = reinterpret_cast<void*>(&normal_sigma);
-    arr[10] = reinterpret_cast<void*>(&position_sigma);
-    arr[11] = reinterpret_cast<void*>(&albedo_sigma);
-    arr[12] = reinterpret_cast<void*>(&step_scale);
-    for (int32_t i = 0 ; i < m_impl->wavelet_sample; i++)
-    {
-        if (i % 2 != 0) 
-        {
-            arr[0] = reinterpret_cast<void*>(&m_impl->hdr_tmp.buffer);
-            arr[4] = reinterpret_cast<void*>(&m_impl->hdr.buffer);
-        }
-        else 
-        {
-            arr[0] = reinterpret_cast<void*>(&m_impl->hdr.buffer);
-            arr[4] = reinterpret_cast<void*>(&m_impl->hdr_tmp.buffer);
-        }
-
-        step_scale = 1 << i;
-        color_sigma_scale = std::powf(2.0f, (float)i);
-
-        CUDA_CHECK_ERROR(cuLaunchKernel(m_impl->cuda_atrous_wavelet, cudaGridSize.x, cudaGridSize.y, cudaGridSize.z,
-            cudaBlockSize.x, cudaBlockSize.y, cudaBlockSize.z, 0, nullptr, arr, 0));
-
-        CUDA_CHECK_ERROR(cuCtxSynchronize());
-    }
-}
-
 void SampleScene::OptixDenoiserPass()
 {
     if (!m_impl->enable_denoise) 
@@ -957,7 +891,6 @@ void SampleScene::LaunchCudaKernel(LaunchArg& arg)
 {
     int width = arg.hdr_buffer->GetWidth();
     int height = arg.hdr_buffer->GetHeight();
-    //AtrousWaveletPass(width, height);
     LensSystemPass(width, height);
     OptixDenoiserPass();
     TonemapPass(width, height);

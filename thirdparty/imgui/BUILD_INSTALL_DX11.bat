@@ -9,4 +9,3 @@ cd %CURRENT_DIR%\\GL\\lib
 rename imgui.lib imguiD.lib
 cd %CURRENT_DIR%\\_build
 cmake --build . --target install --config Release
-pause

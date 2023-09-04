@@ -68,7 +68,7 @@ macro(setting_configrations project_name cmake_module_path)
         endif()
     endif()
 
-    file(RELATIVE_PATH folder ${root_path}Sources ${project_root_path}/../)
+    file(RELATIVE_PATH folder ${root_path}Sources ${project_root_path}/${project_name})
     message("FOLDER_DIR : " ${folder})
     SET_TARGET_PROPERTIES(${project_name} PROPERTIES FOLDER ${folder})
 

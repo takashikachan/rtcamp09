@@ -16,5 +16,3 @@ for %%a in (*.hpp) do (
     echo xopy: %CD%\%%a to %SOURCE_INCLUDE_DIR%
     copy %CD%\%%a %SOURCE_INCLUDE_DIR% /y
 )
-
-pause

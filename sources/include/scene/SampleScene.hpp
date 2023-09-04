@@ -25,7 +25,6 @@ private:
     void InitDenoiser(GraphicsContext& context, const InitParam& param);
 private:
     void UpdateAnimation(int32_t framecount, Camera& camera);
-    void UpdateParticle(GraphicsContext& context, uint32_t framecount);
     void UpdateLaunchParam(SdrPixelBuffer& output_buffer, InitParam& param);
     bool UpdateObject(GraphicsContext& context);
     bool UpdateLight(GraphicsContext& context);
@@ -42,7 +41,6 @@ private:
     void CopyBufferPass(int width, int height);
     void LensSystemPass(int width, int height);
     void OptixDenoiserPass();
-    void AtrousWaveletPass(int width, int height);
 private:
     struct Implement;
     std::unique_ptr<Implement> m_impl = nullptr;

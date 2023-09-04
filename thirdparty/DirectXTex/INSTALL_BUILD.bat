@@ -1,5 +1,3 @@
-@echo off
-
 set CURRENT_DIR=%CD%
 set SOURCE_DIR=%CURRENT_DIR%\DirectXTex
 set SOURCE_BUILD_DIR=%CURRENT_DIR%\DirectXTex\_build
@@ -20,3 +18,6 @@ cd %SOURCE_BUILD_DIR%
 cmake --build . --target install --config Release
 
 cd %CURRENT_DIR%
+
+xcopy %SOURCE_DIR%\DirectXTex\DDS.h %SOURCE_INSTALL_DIR%\include
+pause
