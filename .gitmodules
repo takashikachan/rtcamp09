@@ -19,3 +19,6 @@
 [submodule "thirdparty/tinyobj/tinyobj"]
 	path = thirdparty/tinyobj/tinyobj
 	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "thirdparty/glm/glm"]
+	path = thirdparty/glm/glm
+	url = https://github.com/g-truc/glm.git
