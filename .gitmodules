@@ -1,0 +1,21 @@
+[submodule "thirdparty/cereal/cereal"]
+	path = thirdparty/cereal/cereal
+	url = https://github.com/USCiLab/cereal.git
+[submodule "thirdparty/DirectXTex/DirectXTex"]
+	path = thirdparty/DirectXTex/DirectXTex
+	url = https://github.com/microsoft/DirectXTex.git
+[submodule "thirdparty/imgui/imgui"]
+	path = thirdparty/imgui/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "thirdparty/stb/stb"]
+	path = thirdparty/stb/stb
+	url = https://github.com/nothings/stb.git
+[submodule "thirdparty/polynomial_optics/polynomial_optics"]
+	path = thirdparty/polynomial_optics/polynomial_optics
+	url = https://github.com/edwinRNDR/PolynomialOptics.git
+[submodule "thirdparty/tinygltf/tinygltf"]
+	path = thirdparty/tinygltf/tinygltf
+	url = https://github.com/syoyo/tinygltf.git
+[submodule "thirdparty/tinyobj/tinyobj"]
+	path = thirdparty/tinyobj/tinyobj
+	url = https://github.com/tinyobjloader/tinyobjloader.git
