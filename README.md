@@ -37,7 +37,7 @@ git submodule update --init
 下記batファイルを実行
 - SetupEnv.bat
 
-workspaceフォルダが作られ、その中にソリューション等が生成されます。
+workspaceフォルダが作られ、その中にソリューションが生成されます。
 
 ## References
 
