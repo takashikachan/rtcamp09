@@ -19,6 +19,7 @@
 - CUDA 12.1
 - OptiX 7.7
 - CMake 3.15.0以上
+- Windows10,11
 
 ## Build
 
